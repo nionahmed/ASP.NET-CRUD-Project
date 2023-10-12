@@ -1,7 +1,20 @@
+using Employee360.Web.DbContexts;
+using Microsoft.EntityFrameworkCore;
 using AspNetCoreHero.ToastNotification;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +28,24 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Account/Login"; // The login page URL
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+// Use the connection string from appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("Employee");
+
+// Add the DbContext with the connection string
+builder.Services.AddDbContext<AddToDatabaseDbContexts>(options => options.UseSqlServer("Emp_Personal_InfoDb"));
+
+
 
 var app = builder.Build();
 

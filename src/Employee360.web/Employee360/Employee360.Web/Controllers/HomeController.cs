@@ -40,7 +40,7 @@ namespace Employee360.Web.Controllers
             var email = _configuration["AdminCredentials:Email"];
             var password = _configuration["AdminCredentials:Password"];
 
-            if (model.Email != email || model.Password != password)
+            if (model.Email == email && model.Password == password)
             {
                 // Authentication successful
                 return View("AdminDashboard");
@@ -51,6 +51,14 @@ namespace Employee360.Web.Controllers
             return View("Login");
 
         }
+
+        public IActionResult ToNewEmployeeForm()
+        {
+
+            return View("NewEmployeeForm");
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

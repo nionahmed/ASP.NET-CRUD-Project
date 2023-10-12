@@ -5,3 +5,26 @@
 
 <h1>AdminDashboard</h1>
 
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <img src="~/images/showemp.png" class="card-img-top" alt="showempicon">
+            <div class="card-body">
+                <h5 class="card-title">Click here to see the list of all employees</h5>
+                <a asp-controller="Home" asp-action="ToNewEmployeeForm" method="post" class="btn btn-primary">Show All Employees</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <img src="~/images/addemp.png" class="card-img-top" alt="addempicon">
+            <div class="card-body">
+                <h5 class="card-title">Click here to add a new employee</h5>
+                <a asp-controller="Home" asp-action="ToNewEmployeeForm" method="post" class="btn btn-primary">Add New Employee</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
