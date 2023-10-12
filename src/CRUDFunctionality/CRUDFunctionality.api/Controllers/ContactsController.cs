@@ -84,10 +84,18 @@ namespace CRUDFunctionality.api.Controllers
             if (contact != null)
             {
                 dbContext.Remove(contact);
-                dbContext.SaveChanges();
+                dbContext.SaveChanges(); 
                 return Ok(contact);
             }
             return NotFound();
+        }
+
+        [HttpPost]
+        [Route("api/dueDate2")]
+        public IActionResult Post([FromBody] TeamCardModel num)
+        {
+
+            return Ok(num.DueDate);
         }
 
     }
