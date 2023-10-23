@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Employee360.Web.Models
+namespace CRUDFunctionality.api.Models
 {
-    public class EmpOfficialInfo
+    public class AddOfficialDataDbModel
     {
         [Key]
         public int Id { get; set; }
         public string? Post { get; set; }
-        public int Salary { get; set;}
+        public int Salary { get; set; }
         public int Incperiod { get; set; }
     }
 }

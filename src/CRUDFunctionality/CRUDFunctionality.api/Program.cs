@@ -30,7 +30,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddDbContext<ContactsAPIDbContext>(option =>option.UseSqlServer("ContactsDb"));
+builder.Services.AddDbContext<EmployeeAPIDbContext>(option =>option.UseSqlServer("ContactsDb"));
 
 var app = builder.Build();
 

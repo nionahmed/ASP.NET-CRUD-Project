@@ -13,41 +13,56 @@ namespace CRUDFunctionality.api.Controllers
     [Route("api/[Controller]")]
 
 
-    public class ContactsController : Controller
+    public class EmpDataController : Controller
     {
-        private ContactsAPIDbContext dbContext;
-        public ContactsController(ContactsAPIDbContext dbContext)
+        private EmployeeAPIDbContext dbContext;
+        public EmpDataController(EmployeeAPIDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
        
 
-        [HttpGet]
+        /*[HttpGet]
         public async Task<IActionResult> GetContacts()
         {
             return Ok(await dbContext.Contacts.ToListAsync());
-        }
+        }*/
 
 
         [HttpPost]
-        [Route("add")]
-        public async Task<IActionResult> AddContact(AddContactRequest addContactRequest)
+        [Route("addemp")]
+        public async Task<IActionResult> AddEmployee(AddEmployeeDataViewModel empdata) 
         {
-            var contact = new Contact()
+
+            var newempPersonalInfo = new AddPersonalDataDbModel
             {
-                id = Guid.NewGuid(),
-                name = addContactRequest.Name,
-                address = addContactRequest.Address,
-                email = addContactRequest.Email,
-                phone = addContactRequest.Phone,
+                Name = empdata.Name,
+                FatherName = empdata.FatherName,
+                MotherName = empdata.MotherName,
+                Email = empdata.Email,
+                Phone = empdata.Phone,
+                Address = empdata.Address,
+                Dob = empdata.Dob
             };
-            await dbContext.Contacts.AddAsync(contact);
+
+            var newempOfficialInfo = new AddOfficialDataDbModel 
+            {
+                Post= empdata.Post,
+                Salary= empdata.Salary,
+                Incperiod= empdata.Incperiod,
+            };
+            
+            await dbContext.AddPersonalData.AddAsync(newempPersonalInfo);
+            await dbContext.AddOfficialData.AddAsync(newempOfficialInfo);
             await dbContext.SaveChangesAsync();
-            return Ok(contact);
+
+            return Ok("Data added to Db");
+
+           
         }
 
-        [HttpGet]
+        /*[HttpGet]
         [Route("{id:guid}")]
         public async Task<IActionResult> GetContact([FromRoute] Guid id)
         {
@@ -96,7 +111,7 @@ namespace CRUDFunctionality.api.Controllers
         {
 
             return Ok(num.DueDate);
-        }
+        }*/
 
     }
     
