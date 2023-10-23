@@ -21,13 +21,19 @@ namespace CRUDFunctionality.api.Controllers
             this.dbContext = dbContext;
         }
 
-       
 
-        /*[HttpGet]
-        public async Task<IActionResult> GetContacts()
+
+        [HttpGet]
+        [Route("emplist")]
+        public async Task<IActionResult> ShowEmployeeList()
         {
-            return Ok(await dbContext.Contacts.ToListAsync());
-        }*/
+            var employees = await dbContext.AddPersonalData
+                .Select(e => new { e.Id, e.Name }) // Select only the desired fields
+                .ToListAsync();
+
+            return Ok(employees);
+        }
+
 
 
         [HttpPost]

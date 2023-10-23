@@ -107,7 +107,10 @@ namespace Employee360.Web.Controllers
             }
  
         }
-
+        public IActionResult ShowEmpployeeList()
+        {
+            return View("EmployeeListView");
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

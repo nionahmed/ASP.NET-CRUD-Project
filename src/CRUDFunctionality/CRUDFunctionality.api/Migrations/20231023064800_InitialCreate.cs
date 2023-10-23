@@ -9,7 +9,7 @@ namespace CRUDFunctionality.api.Migrations
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        { 
             migrationBuilder.CreateTable(
                 name: "AddOfficialData",
                 columns: table => new
