@@ -28,12 +28,37 @@ namespace CRUDFunctionality.api.Controllers
         public async Task<IActionResult> ShowEmployeeList()
         {
             var employees = await dbContext.AddPersonalData
-                .Select(e => new { e.Id, e.Name }) // Select only the desired fields
+                .Select(e => new { e.Id, e.Name, e.Email }) // Select only the desired fields
                 .ToListAsync();
 
             return Ok(employees);
         }
 
+        [HttpGet]
+        [Route("eachemp/{id:int}")]
+        public async Task<IActionResult> GetEachEmployeeDetails(int id)
+        {
+            var employee = await dbContext.AddPersonalData.Join(
+                dbContext.AddOfficialData,
+                personaldata => personaldata.Id,
+                officialdata => officialdata.Id,
+                (personaldata, officialdata) => new AddEmployeeDataViewModel
+                {
+                    Id = personaldata.Id,
+                    Name = personaldata.Name,
+                    FatherName = personaldata.FatherName,
+                    MotherName = personaldata.MotherName,
+                    Email = personaldata.Email,
+                    Phone = personaldata.Phone,
+                    Address = personaldata.Address,
+                    Dob = personaldata.Dob,
+                    Post = officialdata.Post,
+                    Salary = officialdata.Salary,
+                    Incperiod = officialdata.Incperiod
+                }).FirstOrDefaultAsync(e=>e.Id==id);
+
+            return Ok(employee);
+        }
 
 
         [HttpPost]
@@ -68,17 +93,7 @@ namespace CRUDFunctionality.api.Controllers
            
         }
 
-        /*[HttpGet]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> GetContact([FromRoute] Guid id)
-        {
-            var contact = await dbContext.Contacts.FindAsync(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return Ok(contact);
-        }
+        /*
 
         [HttpPut]
         [Route("{id:guid}")]

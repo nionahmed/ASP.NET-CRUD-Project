@@ -9,5 +9,6 @@ namespace CRUDFunctionality.api.Models
         public string? Post { get; set; }
         public int Salary { get; set; }
         public int Incperiod { get; set; }
+
     }
 }

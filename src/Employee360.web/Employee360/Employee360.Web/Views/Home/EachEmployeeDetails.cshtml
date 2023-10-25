@@ -1,0 +1,63 @@
+﻿@model EmpDataViewModel;
+
+@{
+    ViewData["Title"] = "EachEmployeeDetails";
+}
+
+<h1 class="text-center">Details of @Model.Name</h1>
+
+<form class="row g-3">
+    <div class="col-md-2">
+        <label for="id" class="form-label">ID</label>
+        <text type="text" class="form-control h-50" id="id">@Model.Id</text>
+    </div>
+    <div class="col-md-10">
+        <label for="name" class="form-label">FULL NAME</label>
+        <text type="text" class="form-control h-50" id="name">@Model.Name</>
+    </div>
+    <div class="col-md-6">
+        <label for="fname" class="form-label">FATHER NAME</label>
+        <text type="text" class="form-control h-50" id="fname">@Model.FatherName</>
+    </div>
+
+    <div class="col-md-6">
+        <label for="mname" class="form-label">MOTHER NAME</label>
+        <text type="text" class="form-control h-50" id="mname">@Model.MotherName</>
+    </div>
+    <div class="col-md-12">
+        <label for="address" class="form-label">CONTACT ADDRESS</label>
+        <text type="text" class="form-control h-50" id="address">@Model.Address</>
+    </div>
+
+    <div class="col-md-6">
+        <label for="email" class="form-label">EMAIL</label>
+        <text type="email" class="form-control h-50" id="email">@Model.Email</>
+    </div>
+
+    <div class="col-md-6">
+        <label for="phone" class="form-label">PHONE</label>
+        <text type="text" class="form-control h-50" id="phone">@Model.Phone</>
+    </div>
+
+    <div class="col-md-12">
+        <label for="dob" class="form-label">DATE OF BIRTH</label>
+        <text type="text" class="form-control h-50" id="dob">@Model.Dob</>
+    </div>
+
+    <div class="col-md-4">
+        <label for="post" class="form-label">CURRENT ROLE</label>
+        <text type="text" class="form-control h-50" id="post">@Model.Post</>
+    </div>
+
+    <div class="col-md-4">
+        <label for="salary" class="form-label">GROSS SALARY</label>
+        <text type="text" class="form-control h-50" id="salary">@Model.Salary</>
+    </div>
+
+    <div class="col-md-4">
+        <label for="incperiod" class="form-label">INCREMENT NOTICE TIME</label>
+        <text type="text" class="form-control h-50" id="incperiod">@Model.Incperiod</>
+    </div>
+
+</form>
+

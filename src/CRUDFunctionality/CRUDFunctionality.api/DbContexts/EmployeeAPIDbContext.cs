@@ -23,8 +23,6 @@ namespace CRUDFunctionality.api.DbContexts
             get;
             set;
         }
-        
-
         public DbSet<AddOfficialDataDbModel> AddOfficialData
         {
             get;
@@ -37,10 +35,16 @@ namespace CRUDFunctionality.api.DbContexts
                 .Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn();
+
             modelBuilder.Entity<AddOfficialDataDbModel>()
                 .Property(e => e.Id)
                 .ValueGeneratedOnAdd()
                 .UseIdentityColumn();
+            
+
+            
+            
+
         }
     }
 

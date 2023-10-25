@@ -40,7 +40,7 @@ namespace CRUDFunctionality.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AddOfficialData");
+                    b.ToTable("AddOfficialData", (string)null);
                 });
 
             modelBuilder.Entity("CRUDFunctionality.api.Models.AddPersonalDataDbModel", b =>
@@ -74,7 +74,7 @@ namespace CRUDFunctionality.api.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AddPersonalData");
+                    b.ToTable("AddPersonalData", (string)null);
                 });
 #pragma warning restore 612, 618
         }

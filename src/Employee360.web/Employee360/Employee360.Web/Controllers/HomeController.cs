@@ -17,7 +17,8 @@ namespace Employee360.Web.Controllers
         private readonly IConfiguration _configuration;
         private readonly INotyfService _notyf;
         private readonly string _AddNewEmpAPI;
-
+        private readonly string _ShowEmpListAPI;
+        private readonly string _ShowEachEmpDetailsAPI;
 
 
         public HomeController(IConfiguration configuration, INotyfService notyf)
@@ -25,6 +26,8 @@ namespace Employee360.Web.Controllers
             _configuration = configuration;
             _notyf = notyf;
             _AddNewEmpAPI = _configuration["AddDataAPI"];
+            _ShowEmpListAPI = _configuration["ShowEmpListAPI"];
+            _ShowEachEmpDetailsAPI = _configuration["ShowEachEmpDetailsAPI"];
         }
 
 
@@ -52,6 +55,7 @@ namespace Employee360.Web.Controllers
             {
                 // Authentication successful
                 return View("AdminDashboard");
+
             }
 
             // Authentication failed
@@ -60,11 +64,16 @@ namespace Employee360.Web.Controllers
 
         }
 
+        public IActionResult ToRunningDashboard()
+        {
+            return View("AdminDashboard");
+        }
+
         public IActionResult ToNewEmployeeForm()
         {
-
             return View("NewEmployeeForm");
         }
+
         public async Task <IActionResult> AddNewEmpPloyeeToDb(EmpDataViewModel empdata)
         {
             var EmployeeData = new EmpDataViewModel
@@ -107,9 +116,50 @@ namespace Employee360.Web.Controllers
             }
  
         }
-        public IActionResult ShowEmpployeeList()
+        public async Task <IActionResult> ShowEmployeeList()
         {
-            return View("EmployeeListView");
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(_ShowEmpListAPI);
+            if (response.IsSuccessStatusCode) 
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                var employees = JsonConvert.DeserializeObject<List<EmpDataViewModel>>(content);
+                return View("EmployeeListView", employees);
+
+            }
+
+            else
+            {
+                Console.WriteLine("API Call Failed");
+                return View("AdminDashboard");
+            }
+            
+        }
+
+        public async Task<IActionResult> ToEachEmployeeDetails(int id)
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"{_ShowEachEmpDetailsAPI}/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                var employee = JsonConvert.DeserializeObject<EmpDataViewModel>(content);
+
+                
+
+                return View("EachEmployeeDetails", employee);
+
+            }
+            else
+            {
+                _notyf.Error("Error");
+                Console.WriteLine("Failed");
+                return View("NewEmployeeForm");
+            }
+
         }
 
 
