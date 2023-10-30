@@ -4,6 +4,7 @@
 }
 
 <h1>EmpployeeList</h1>
+<form asp-action="ToRunningDashboard" asp-controller="Home">
 <table class="table">
     <thead>
         <tr>
@@ -19,9 +20,16 @@
                 <th scope="row">@employee.Id</th>
                 <td><a asp-action="ToEachEmployeeDetails" asp-controller="Home" asp-route-id="@employee.Id">@employee.Name</a></td>
                 <td>@employee.Email</td>
+                <td><a asp-action="DeleteEachEmployeeDetails" asp-controller="Home" asp-route-id="@employee.Id">Delete</a></td>
             </tr>
         }
        
     </tbody>
 </table>
+
+    <button type="submit" class="btn btn-dark float-end w-25 mt-5">Back To DashBoard</button>
+</form>
+
+
+
 

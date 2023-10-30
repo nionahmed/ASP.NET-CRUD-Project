@@ -20,6 +20,7 @@ namespace Employee360.Web.Controllers
         private readonly string _ShowEmpListAPI;
         private readonly string _ShowEachEmpDetailsAPI;
         private readonly string _UpdateEachEmpDetails;
+        private readonly string _DeleteEachEmpDetails;
 
 
         public HomeController(IConfiguration configuration, INotyfService notyf)
@@ -30,6 +31,7 @@ namespace Employee360.Web.Controllers
             _ShowEmpListAPI = _configuration["ShowEmpListAPI"];
             _ShowEachEmpDetailsAPI = _configuration["ShowEachEmpDetailsAPI"];
             _UpdateEachEmpDetails = _configuration["UpdateEachEmpDetails"];
+            _DeleteEachEmpDetails = _configuration["DeleteEachEmpDetails"];
         }
 
 
@@ -220,7 +222,14 @@ namespace Employee360.Web.Controllers
 
                     Console.WriteLine("Successfull");
                     _notyf.Success("Saved Successfully");
-                    return View("AdminDashboard");
+                    var response2 = await httpClient.GetAsync(_ShowEmpListAPI);
+                    
+                    var content = await response2.Content.ReadAsStringAsync();
+
+                    var employees = JsonConvert.DeserializeObject<List<EmpDataViewModel>>(content);
+                    return View("EmployeeListView", employees);
+
+                    
 
                 }
                 else
@@ -228,6 +237,45 @@ namespace Employee360.Web.Controllers
                     _notyf.Error("Error");
                     Console.WriteLine("Failed");
                     return View("EditEmployeePage");
+                }
+            }
+
+        }
+
+        public async Task<IActionResult> DeleteEachEmployeeDetails(int id)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.DeleteAsync($"{_DeleteEachEmpDetails}/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    Console.WriteLine("Successfull");
+                    _notyf.Success("Successfully Deleted");
+                    
+                    var response2 = await httpClient.GetAsync(_ShowEmpListAPI);
+                    if (response2.IsSuccessStatusCode)
+                    {
+                        var content = await response2.Content.ReadAsStringAsync();
+
+                        var employees = JsonConvert.DeserializeObject<List<EmpDataViewModel>>(content);
+                        return View("EmployeeListView", employees);
+
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("API Call Failed");
+                        return View("AdminDashboard");
+                    }
+
+                }
+                else
+                {
+                    _notyf.Error("Error");
+                    Console.WriteLine("Failed");
+                    return View("AdminDashboard");
                 }
             }
 

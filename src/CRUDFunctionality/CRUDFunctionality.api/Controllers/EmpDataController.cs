@@ -92,7 +92,7 @@ namespace CRUDFunctionality.api.Controllers
         }
 
         [HttpPut]
-        [Route("updateeachemp/{id:int}")]
+        [Route("update-eachemp/{id:int}")]
         public async Task<IActionResult> UpdateEachEmployeeDetails(int id, AddEmployeeDataViewModel empdata)
         {
             var employeePersonal = await dbContext.AddPersonalData.FindAsync(id);
@@ -123,21 +123,25 @@ namespace CRUDFunctionality.api.Controllers
             
         }
 
+        [HttpDelete]
+        [Route("delete-eachemp/{id:int}")]
+        public async Task<IActionResult> DeleteEachEmpDetails(int id)
+        {
+            var employeePersonal = await dbContext.AddPersonalData.FindAsync(id);
+            var employeeOfficial = await dbContext.AddOfficialData.FindAsync(id);
+            if (employeePersonal != null && employeeOfficial !=null)
+            {
+                dbContext.Remove(employeePersonal);
+                dbContext.Remove(employeeOfficial);
+                dbContext.SaveChanges();
+                return Ok("Deleted");
+            }
+            return NotFound("Not Found");
+        }
+
         /*
 
-        [HttpDelete]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> DeleteContact(Guid id)
-        {
-            var contact = await dbContext.Contacts.FindAsync(id);
-            if (contact != null)
-            {
-                dbContext.Remove(contact);
-                dbContext.SaveChanges(); 
-                return Ok(contact);
-            }
-            return NotFound();
-        }
+        
 
         [HttpPost]
         [Route("api/dueDate2")]
