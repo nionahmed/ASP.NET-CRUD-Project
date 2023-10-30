@@ -19,6 +19,7 @@ namespace Employee360.Web.Controllers
         private readonly string _AddNewEmpAPI;
         private readonly string _ShowEmpListAPI;
         private readonly string _ShowEachEmpDetailsAPI;
+        private readonly string _UpdateEachEmpDetails;
 
 
         public HomeController(IConfiguration configuration, INotyfService notyf)
@@ -28,6 +29,7 @@ namespace Employee360.Web.Controllers
             _AddNewEmpAPI = _configuration["AddDataAPI"];
             _ShowEmpListAPI = _configuration["ShowEmpListAPI"];
             _ShowEachEmpDetailsAPI = _configuration["ShowEachEmpDetailsAPI"];
+            _UpdateEachEmpDetails = _configuration["UpdateEachEmpDetails"];
         }
 
 
@@ -161,6 +163,76 @@ namespace Employee360.Web.Controllers
             }
 
         }
+        
+        public async Task<IActionResult> ToEditEmployeePage(int id)
+        {
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync($"{_ShowEachEmpDetailsAPI}/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                var employee = JsonConvert.DeserializeObject<EmpDataViewModel>(content);
+
+
+
+                return View("EditEmployeePage", employee);
+
+            }
+            else
+            {
+                _notyf.Error("Error");
+                Console.WriteLine("Failed");
+                return View("NewEmployeeForm");
+            }
+
+        }
+
+        public async Task<IActionResult> UpdateEachEmployeeDetails(int id, EmpDataViewModel empdata)
+        {
+            var EmployeeData = new EmpDataViewModel
+            {
+                Id=empdata.Id,
+                Name = empdata.Name,
+                FatherName = empdata.FatherName,
+                MotherName = empdata.MotherName,
+                Email = empdata.Email,
+                Phone = empdata.Phone,
+                Address = empdata.Address,
+                Dob = empdata.Dob,
+                Post = empdata.Post,
+                Salary = empdata.Salary,
+                Incperiod = empdata.Incperiod
+            };
+
+            string jsonData = JsonConvert.SerializeObject(EmployeeData);
+
+
+            var EmployeeDataContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PutAsync($"{_UpdateEachEmpDetails}/{id}", EmployeeDataContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    Console.WriteLine("Successfull");
+                    _notyf.Success("Saved Successfully");
+                    return View("AdminDashboard");
+
+                }
+                else
+                {
+                    _notyf.Error("Error");
+                    Console.WriteLine("Failed");
+                    return View("EditEmployeePage");
+                }
+            }
+
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

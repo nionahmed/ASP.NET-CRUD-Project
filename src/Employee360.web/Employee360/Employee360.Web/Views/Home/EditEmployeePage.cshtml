@@ -1,0 +1,71 @@
+﻿@model EmpDataViewModel;
+
+@{
+    ViewData["Title"] = "EditEmployeePage";
+}
+
+
+<h1 class="text-center">Details of @Model.Name</h1>
+
+<form class="row g-3" asp-controller="Home" asp-action="UpdateEachEmployeeDetails" asp-route-id="@Model.Id">
+    <div class="col-md-2">
+        <label for="id" class="form-label">ID</label>
+        <input asp-for="Id" type="text" class="form-control h-50" id="id" value="@Model.Id">
+    </div>
+    <div class="col-md-10">
+        <label for="name" class="form-label">FULL NAME</label>
+        <input asp-for="Name" type="text" class="form-control h-50" id="name" value="@Model.Name">
+    </div>
+    <div class="col-md-6">
+        <label for="fname" class="form-label">FATHER NAME</label>
+        <input asp-for="FatherName" type="text" class="form-control h-50" id="fname" value="@Model.FatherName">
+    </div>
+
+    <div class="col-md-6">
+        <label for="mname" class="form-label">MOTHER NAME</label>
+        <input asp-for="MotherName" type="text" class="form-control h-50" id="mname" value="@Model.MotherName">
+    </div>
+    <div class="col-md-12">
+        <label for="address" class="form-label">CONTACT ADDRESS</label>
+        <input asp-for="Address" type="text" class="form-control h-50" id="address" value="@Model.Address">
+    </div>
+
+    <div class="col-md-6">
+        <label for="email" class="form-label">EMAIL</label>
+        <input asp-for="Email" type="email" class="form-control h-50" id="email" value="@Model.Email">
+    </div>
+
+    <div class="col-md-6">
+        <label for="phone" class="form-label">PHONE</label>
+        <input asp-for="Phone" type="text" class="form-control h-50" id="phone" value="@Model.Phone">
+    </div>
+
+    <div class="col-md-12">
+        <label for="dob" class="form-label">DATE OF BIRTH</label>
+        <input asp-for="Dob" type="text" class="form-control h-50" id="dob" value="@Model.Dob">
+    </div>
+
+    <div class="col-md-4">
+        <label for="post" class="form-label">CURRENT ROLE</label>
+        <input asp-for="Post" type="text" class="form-control h-50" id="post" value="@Model.Post">
+    </div>
+
+    <div class="col-md-4">
+        <label for="salary" class="form-label">GROSS SALARY</label>
+        <input asp-for="Salary" type="text" class="form-control h-50" id="salary" value="@Model.Salary">
+    </div>
+
+    <div class="col-md-4">
+        <label for="incperiod" class="form-label">INCREMENT NOTICE TIME</label>
+        <input asp-for="Incperiod" type="text" class="form-control h-50" id="incperiod" value="@Model.Incperiod">
+    </div>
+
+    <button type="submit" class="btn btn-dark float-end w-25 mt-5">Save</button>
+
+
+</form>
+
+
+
+
+

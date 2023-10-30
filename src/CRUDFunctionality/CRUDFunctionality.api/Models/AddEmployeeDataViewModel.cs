@@ -18,4 +18,6 @@ namespace CRUDFunctionality.api.Models
         public int Salary { get; set; }
         public int Incperiod { get; set; }
     }
+
+
 }

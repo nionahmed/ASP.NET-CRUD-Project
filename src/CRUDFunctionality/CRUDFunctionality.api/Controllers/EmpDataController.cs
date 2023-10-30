@@ -89,28 +89,41 @@ namespace CRUDFunctionality.api.Controllers
             await dbContext.SaveChangesAsync();
 
             return Ok("Data added to Db");
+        }
 
-           
+        [HttpPut]
+        [Route("updateeachemp/{id:int}")]
+        public async Task<IActionResult> UpdateEachEmployeeDetails(int id, AddEmployeeDataViewModel empdata)
+        {
+            var employeePersonal = await dbContext.AddPersonalData.FindAsync(id);
+            var employeeOfficial = await dbContext.AddOfficialData.FindAsync(id);
+            if (employeePersonal != null)
+            {
+                employeePersonal.Name = empdata.Name;
+                employeePersonal.FatherName = empdata.FatherName;
+                employeePersonal.MotherName = empdata.MotherName;
+                employeePersonal.Email = empdata.Email;
+                employeePersonal.Phone = empdata.Phone;
+                employeePersonal.Address = empdata.Address;
+                employeePersonal.Dob = empdata.Dob;
+                await dbContext.SaveChangesAsync();
+                
+            }
+
+            if (employeeOfficial != null)
+            {
+                employeeOfficial.Post = empdata.Post;
+                employeeOfficial.Salary = empdata.Salary;
+                employeeOfficial.Incperiod = empdata.Incperiod;
+                
+                await dbContext.SaveChangesAsync();
+
+            }
+            return Ok("Successfull");
+            
         }
 
         /*
-
-        [HttpPut]
-        [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateContact([FromRoute] Guid id, UpdateContactRequest updateContactRequest)
-        {
-            var contact = await dbContext.Contacts.FindAsync(id);
-            if (contact != null)
-            {
-                contact.name = updateContactRequest.name;
-                contact.phone = updateContactRequest.phone;
-                contact.address = updateContactRequest.address;
-                contact.email = updateContactRequest.email;
-                await dbContext.SaveChangesAsync();
-                return Ok(contact);
-            }
-            return NotFound();
-        }
 
         [HttpDelete]
         [Route("{id:guid}")]
